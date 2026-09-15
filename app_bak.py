@@ -7,6 +7,7 @@ Install:  pip install streamlit qiskit qiskit-aer matplotlib numpy
 import streamlit as st
 import numpy as np
 import matplotlib.pyplot as plt
+from pathlib import Path
 from qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister
 from qiskit_aer import AerSimulator
 from qiskit_aer.noise import NoiseModel, depolarizing_error
@@ -86,6 +87,17 @@ st.markdown("""
 
 st.title("⚛ Quantum Teleportation Network")
 st.caption("An undergraduate project simulation")
+
+_anim_path = Path(__file__).with_name("quantum_flow_animation.html")
+with st.expander("Data-flow animation — encode, decode, and eavesdropper", expanded=True):
+    st.caption(
+        "Turn on **Eavesdropper peeks** to watch Eve measure a qubit in transit. "
+        "The state collapses, fidelity drops, and Bob's decode fails."
+    )
+    if _anim_path.exists():
+        st.components.v1.html(_anim_path.read_text(encoding="utf-8"), height=820, scrolling=True)
+    else:
+        st.error("quantum_flow_animation.html was not found next to app_bak.py.")
 
 # ─────────────────────────────────────────────
 # SIDEBAR — CONTROLS
